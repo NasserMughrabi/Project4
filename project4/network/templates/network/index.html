@@ -1,5 +1,52 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+
+    <div id="new-post">
+        <form id="new-post-form">
+            <textarea name="post-content" id="post-content" placeholder="New Post"></textarea>
+            <input id="post-submit" type="submit" value="Create">
+        </form>
+    </div>
+
+    <div id="all-posts">
+
+    </div>
+
+    <div id="followings-posts">
+
+    </div>
+
+    <div id="profile">
+
+    </div>
+
+    <div id="next-button">
+
+    </div>
+
+    <div id="previous-button">
+
+    </div>
+
+    <div id="edit-post">
+
+    </div>
+
+    <div id="like-post">
+
+    </div>
+
+    <div id="unlike-post">
+
+    </div>
+
+
 {% endblock %}
+
+{% load static %}
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
+{% endblock %}
+{% block
+<script src="{% static 'network/index.js' %}"></script> %}

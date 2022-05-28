@@ -1,0 +1,55 @@
+Single Page Application is an application that has only one page with mutiple divisions in it. However, these divisions do not appear all at the same time but in fact some show and some hide depending on the user's interaction with interface.
+
+For this application we should have single HTML page with these divisions:
+
+1. All posts division
+2. new post textarea division
+2. Profile division
+3. following division (posts only by people that the user follow)
+4. next button division
+5. previous button division
+6. edit post division
+7. like button and label division
+8. unlike button and label division
+
+
+Files to add code to:
+1. models.py - server side database
+2. index.HTML - client side 
+3. index.js - client side
+4. style.css - client side
+
+Where do I start? models.py (ER diagram)
+
+
+Building database tables:
+
+requirments:
+
+- Users
+    - each user must have number of followers, and number of following
+    - a user can have zero or more followers
+    - a user can have zero or more following
+    - a user can have zero or more posts
+
+- Posts
+    - each post must have a username(FK from Users), content, publish date, number of likes, and number of unlikes
+    - a post can have zero or more likes
+
+- Follow
+    - follower_username, following_username
+
+Expected database queries: write Confirm next to query that can be satisfied using the above database.
+
+- query that returns all posts by all users - Confirm
+- query that insert a new post to all existing posts - Confirm
+- query that returns all the number of user's following and followers - Confirm
+- query that returns posts by all people the current user follows - Confirm
+- query that returns the number of likes and unlikes on some post - Confirm
+
+
+Tables/Models according to the above requirmetns and expected queries:
+1. Users: followers_num, following_num
+2. Posts: username(FK), content, date_posted, likes_num, unlikes_num
+3. Follow: follower_username, following_username
+
