@@ -6,7 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if(document.querySelector('#post-submit') !== null) {
-        document.querySelector('#post-submit').addEventListener('click', () => create_post())
+        document.querySelector('#post-submit').addEventListener('click', () => create_post());
+    }
+
+    if(document.querySelector('#request_username') !== null){
+        const username = document.querySelector('#request_username').textContent;
+        document.querySelector('#request_username').addEventListener('click', () => display_profile(username));
     }
 
     load_all_posts();
@@ -190,6 +195,7 @@ function follow_person(username, request_username, buttonChoice){
 }
 
 function display_post(post, elementId){
+    console.log(post);
     
     const postDiv = document.createElement('div');
     postDiv.className = 'post-div';
@@ -205,7 +211,7 @@ function display_post(post, elementId){
             ${post.date_posted}  
         </div>
         <div class="like" id="like-${post.id}-${elementId}">
-            <button>Like</button>
+            <button id="like-button-${post.id}-${elementId}">Like</button>
         </div>
         <div class="likes" >
             <div id="likes-div-${post.id}-${elementId}">${post.likes_num}</div>
@@ -231,14 +237,13 @@ function display_post(post, elementId){
     fetch('likes')
     .then(response => response.json())
     .then(likes => {
-        console.log(likes);
         // user has liked this post.
-        if(likes.find(postid => postid.liked_post_id === post.id)){
+        if(likes.find(like => like.liked_post_id === post.id)){
             document.querySelector(`#like-${post.id}-${elementId}`).style.backgroundColor = 'red';
-            document.querySelector(`#like-${post.id}-${elementId}`).addEventListener('click', () => like_post(post.id, 'unlike', elementId));
+            document.querySelector(`#like-${post.id}-${elementId}`).addEventListener('click', () => like_post(post, 'unlike', elementId));
         } else{
             document.querySelector(`#like-${post.id}-${elementId}`).style.backgroundColor = 'green';
-            document.querySelector(`#like-${post.id}-${elementId}`).addEventListener('click', () => like_post(post.id, 'like', elementId));
+            document.querySelector(`#like-${post.id}-${elementId}`).addEventListener('click', () => like_post(post, 'like', elementId));
         }
     });
 
@@ -302,32 +307,34 @@ function edit_post(postId, postContent, elementId){
 
 }
 
-function like_post(postId, buttonChoice, elementId){
+function like_post(post, buttonChoice, elementId){
 
     // fetch Like model and check if user already liked the post and upon it disable or keep the button enabled
     let likesNum;
     if(buttonChoice === 'like'){
-        likesNum = ++document.querySelector(`#likes-div-${postId}-${elementId}`).innerHTML;
+        document.querySelector(`#like-${post.id}-${elementId}`).style.backgroundColor = 'red';
+        likesNum = ++document.querySelector(`#likes-div-${post.id}-${elementId}`).innerHTML;
         fetch(`/edit_likes`, {
             method: 'PUT',
             body: JSON.stringify({
-                id: postId,
+                id: post.id,
                 likes_num: likesNum
             })
         });
     } else {
-        likesNum = --document.querySelector(`#likes-div-${postId}-${elementId}`).innerHTML;
+        document.querySelector(`#like-${post.id}-${elementId}`).style.backgroundColor = 'green';
+        likesNum = --document.querySelector(`#likes-div-${post.id}-${elementId}`).innerHTML;
         fetch(`/edit_likes`, {
             method: 'DELETE',
             body: JSON.stringify({
-                id: postId,
+                id: post.id,
                 likes_num: likesNum
             })
         });
     }
 
-    // display_post(postId, elementId);
 }
+
 
 
 // PAGINATION------------------------------------------------------------------------------------------
